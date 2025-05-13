@@ -1,0 +1,50 @@
+{
+  "name": "event-app",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "deep-email-validator": "^0.1.21",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.14.1",
+    "mssql": "^11.0.1",
+    "nodemon": "^3.1.10",
+    "uuid": "^11.1.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ekosuesanto25/event-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ekosuesanto25/event-app/issues"
+  },
+  "homepage": "https://github.com/ekosuesanto25/event-app#readme",
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [
+    "event",
+    "app"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
