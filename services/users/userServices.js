@@ -1,4 +1,6 @@
+import userActivityControllers from '../users/userActivityServices.js';
 import User from '../../models/users/userModel.js';
+import userActivityServices from '../users/userActivityServices.js';
 /**
  * @function getAllUsers
  * @description Get all users
@@ -18,7 +20,7 @@ export const getAllUsers = async (query) => {
     if (query) {
         delete query.limit;
         delete query.start;
-        Object.assign(params, { isDeleted: false , ...query});
+        Object.assign(params, { isDeleted: false, ...query });
     }
     const users = await User.find(params).limit(limit).skip(skip);
     return users;

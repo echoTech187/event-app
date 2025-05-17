@@ -9,6 +9,35 @@ const userStatusSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        required: false
+    },
+    active: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
+    deletedBy: {
+        type: String,
+        required: false,
+        default: null
+    },
+    deletedAt: {
+        type: Date,
+        required: false,
+        default: null
+    },
+    updatedBy: {
+        type: String,
+        required: false,
+        default: null
+    },
+    updatedAt: {
+        type: Date,
+        required: false,
+        default: null
+    },
     createdBy: {
         type: String,
         required: true

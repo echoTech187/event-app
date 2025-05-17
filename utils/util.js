@@ -22,6 +22,12 @@ export const getToken = async (req) => {
     const token = authHeader && authHeader.split(' ')[1];
     return token;
 }
+export const decodeToken = async (req) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    const decodeToken = jwt.verify(token.toString(), config.jwtSecret);
+    return decodeToken;
+}
 export const generateParams = async (req) => {
     const query = {};
 

@@ -60,9 +60,9 @@ const userSchema = new mongoose.Schema({
         default: null
     },
     status: {
-        type: String,
+        type: Number,
         required: true,
-        default: 'Inactive'
+        default: 1
     },
     activeDate: {
         type: Date,

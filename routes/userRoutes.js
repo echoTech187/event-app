@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.use(express.json());
 
-router.get("/search", userController.getUser);
+router.use(authenticateToken).get("/search", userController.getUser);
 // ======================== User routes ========================================
 
 /*  GET ALL USERS 
