@@ -4,6 +4,7 @@ import * as userActivityControllers from "../users/userActivityControllers.js";
 import { v4 as uuidv4 } from 'uuid';
 import { randomInt } from "crypto";
 import { validate } from "deep-email-validator";
+import { exit } from "process";
 
 /**
  * @api {post} /auth/register Register
@@ -93,6 +94,7 @@ export const login = async (req, res) => {
             return res.status(200).json({ responseCode: 200, status: "error", message: "Email is not valid. Please use a valid email!", error: validationResult.reason });
         } else {
             const user = await UserServices.searchUser({ email: email });
+            
             if (!user) {
                 return res.status(200).json({ responseCode: 200, status: "error", message: "Account not found. Please register!" });
             } else if (user.isDeleted) {
@@ -111,21 +113,23 @@ export const login = async (req, res) => {
             } else if (!await libs.comparePassword(password, user.password)) {
                 return res.status(200).json({ responseCode: 200, status: "error", message: "Password is wrong." });
             } else {
-                const token = await libs.generateToken(user);
-
+                const userSession = {
+                    id: user.id,
+                    username: user.username,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email
+                };
+                const token = await libs.generateToken(userSession);
                 if (!token) {
                     return res.status(200).json({ responseCode: 200, status: "error", message: "Login failed. Please try again." });
                 } else {
                     const updatedUser = await UserServices.updateUser(user.id, { lastLogin: Date.now(), token: token });
+                    
                     if (!updatedUser) {
                         return res.status(200).json({ responseCode: 200, status: "error", message: "Login failed. Please try again." });
                     } else {
-                        const userSession = {
-                            id: user.id,
-                            username: user.username,
-                            firstName: user.firstName,
-                            lastName: user.lastName
-                        }
+                        
                         const response = await userActivityControllers.addUserActivity(req, userSession, "LOGIN", req.body);
                         if (!response) {
                             return res.status(200).json({ responseCode: 200, status: "error", message: "Login failed. Please try again." });
