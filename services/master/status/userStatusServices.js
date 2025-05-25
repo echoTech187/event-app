@@ -1,4 +1,4 @@
-import UserStatusModel from "../../models/master/userStatusModel.js";
+import UserStatusModel from "../../../models/master/status/userStatusModel.js";
 
 export const getAllUserStatus = async (params) => {
     const userStatus = await UserStatusModel.find(params);

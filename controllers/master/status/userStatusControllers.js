@@ -1,5 +1,5 @@
-import * as userStatusServices from '../../services/master/userStatusServices.js';
-import * as libs from '../../utils/util.js';
+import * as userStatusServices from '../../../services/master/status/userStatusServices.js';
+import * as libs from '../../../utils/util.js';
 import { v4 as uuidv4 } from 'uuid';
 export const getAllUserStatus = async (req, res) => {
     const params = await libs.generateParams(req);
@@ -30,7 +30,7 @@ export const createUserStatus = async (req, res) => {
 
 export const updateUserStatus = async (req, res) => {
     const userCreated = await libs.decodeToken(req);
-    const body = Object.assign(req.body, {active: true, updatedBy: userCreated.data.username, updatedAt: new Date() });
+    const body = Object.assign(req.body, { active: true, updatedBy: userCreated.data.username, updatedAt: new Date() });
     const response = await userStatusServices.updateUserStatus({ statusId: req.params.id }, body);
     if (!response) {
         return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to update User Status" });
@@ -43,7 +43,6 @@ export const updateUserStatus = async (req, res) => {
 export const deleteUserStatus = async (req, res) => {
     const userCreated = await libs.decodeToken(req);
     const body = Object.assign({ active: false, deletedBy: userCreated.data.username, deletedAt: new Date() });
-    console.log(body);
     const response = await userStatusServices.deleteUserStatus({ statusId: req.params.id }, body);
     if (!response) {
         return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to delete User Status" });

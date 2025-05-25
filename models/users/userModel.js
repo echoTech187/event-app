@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 const userSchema = new mongoose.Schema({
     id: {
         type: String,
@@ -59,11 +59,11 @@ const userSchema = new mongoose.Schema({
         required: false,
         default: null
     },
-    status: {
-        type: Number,
-        required: true,
-        default: 1
-    },
+    status: [{
+        type: Schema.Types.ObjectId,
+        ref: 'UserStatus',
+        required: true
+    }],
     activeDate: {
         type: Date,
         default: null

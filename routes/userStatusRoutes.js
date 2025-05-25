@@ -5,7 +5,7 @@ import {
     createUserStatus,
     updateUserStatus,
     deleteUserStatus
-} from "../controllers/master/userStatusControllers.js";
+} from "../controllers/master/status/userStatusControllers.js";
 import { authenticateToken } from "../utils/util.js";
 
 // Define router with express

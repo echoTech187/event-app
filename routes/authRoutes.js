@@ -99,6 +99,7 @@ router.post('/login', login);
  *     tags:
  *     - Authentication
  *     summary: Login with oAuth
+ *     security: []
  *     requestBody:
  *      required: true
  *      content:

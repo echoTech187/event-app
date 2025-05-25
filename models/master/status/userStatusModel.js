@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 const userStatusSchema = new mongoose.Schema({
     statusId: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        index: true
     },
     status: {
         type: String,
