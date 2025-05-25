@@ -6,35 +6,35 @@ const productSchema = new mongoose.Schema({
         unique: true,
         index: true
     },
-    merchantId: [{
-        type: Schema.Types.ObjectId,
+    merchantId: {
+        type: String,
         ref: 'Merchant',
         required: true
-    }],
+    },
     name: {
         type: String,
         required: true
     },
-    category: [{
-        type: Schema.Types.ObjectId,
+    category: {
+        type: String,
         ref: 'Category',
         required: true
-    }],
-    subCategory: [{
-        type: Schema.Types.ObjectId,
+    },
+    subCategory: {
+        type: String,
         ref: 'SubCategory',
         required: true
-    }],
-    brand: [{
-        type: Schema.Types.ObjectId,
+    },
+    brand: {
+        type: String,
         ref: 'Brand',
         required: true
-    }],
-    condition: [{
-        type: Schema.Types.ObjectId,
+    },
+    condition: {
+        type: String,
         ref: 'Condition',
         required: true
-    }],
+    },
     price: {
         type: Number,
         required: true
@@ -47,20 +47,20 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    thumbnailImages: [{
-        type: Schema.Types.ObjectId,
+    thumbnailImages: {
+        type: [String],
         ref: 'ImageThumbnail',
         required: true
-    }],
+    },
     createdAt: {
         type: Date,
         default: Date.now
     },
-    productStatus: [{
-        type: Schema.Types.ObjectId,
+    productStatus: {
+        type: String,
         ref: 'ProductStatus',
         required: true
-    }]
+    }
 });
 
 export default mongoose.model('Product', productSchema);
