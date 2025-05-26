@@ -34,43 +34,49 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    thumbnailImages: {
+        type: String,
+        ref: 'ImageThumbnail',
+        required: true
+    },
     productMinimumOrder: {
         type: Number,
         required: true
     },
-    productWeightDimention: {
-        type: Number,
-        required: true
-    },
-    productStock: {
-        type: Number,
-        required: true
-    },
-    productPrice: {
-        type: Number,
+    productShortDescription: {
+        type: String,
         required: true
     },
     productDescription: {
         type: String,
         required: true
     },
-    defaultImage: {
+    productNote: {
         type: String,
         required: true
     },
-    thumbnailImages: {
-        type: [String],
-        ref: 'ImageThumbnail',
+    productWeight: {
+        type: Number,
         required: true
     },
-    productStatus: {
+    published: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
+    productTypes: {
         type: String,
-        ref: 'ProductStatus',
+        ref: 'ProductTypes',
         required: true
     },
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    createdBy: {
+        type: String,
+        required: false,
+        default: null
     },
     deletedBy: {
         type: String,

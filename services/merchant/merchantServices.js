@@ -1,4 +1,4 @@
-import merchantModel from "../../models/master/merchant/merchantModel.js";
+import merchantModel from "../../models/merchant/merchantModel.js";
 import db from "../../connection.js";
 
 export const getAllMerchants = async (req, res) => {

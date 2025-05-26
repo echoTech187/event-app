@@ -12,7 +12,8 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -32,7 +33,8 @@ const userSchema = new mongoose.Schema({
     phoneNumber: {
         type: String,
         required: false,
-        default: null
+        default: null,
+        unique: true
     },
     address: {
         type: String,
@@ -59,11 +61,11 @@ const userSchema = new mongoose.Schema({
         required: false,
         default: null
     },
-    status: [{
-        type: Schema.Types.ObjectId,
+    status: {
+        type: String,
         ref: 'UserStatus',
         required: true
-    }],
+    },
     activeDate: {
         type: Date,
         default: null
