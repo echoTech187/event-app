@@ -9,6 +9,8 @@ import merchantRoutes from './routes/merchant/merchantRoutes.js';
 import stateRoutes from './routes/master/attribute/stateRoutes.js';
 import cityRoutes from './routes/master/attribute/cityRoutes.js';
 import countriesRoutes from './routes/master/attribute/countriesRoutes.js';
+import productRoutes from './routes/product/productsRoutes.js';
+import formidable from 'express-formidable';
 import mongoose from 'mongoose';
 import swaggerUI from 'swagger-ui-express';
 import swaggerSpec from './swagger.js';
@@ -25,7 +27,7 @@ mongoose.connect(DB);
 /* ================== Middlewares ==================================== */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(formidable());
 /* ================== CORS Config ==================================== */
 app.use(cors());
 
@@ -36,6 +38,7 @@ app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/merchants', merchantRoutes);
+app.use('/api/products', productRoutes);
 
 
 /* ================== Routes Attributes ==================================== */

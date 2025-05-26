@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import File from "../products/imageModel.js";
 const productSchema = new mongoose.Schema({
     productId: {
         type: String,
@@ -18,26 +19,27 @@ const productSchema = new mongoose.Schema({
     productCategoryId: {
         type: String,
         ref: 'Category',
-        required: true
+        required: false
     },
     productBrandId: {
         type: String,
         ref: 'Brand',
-        required: true
+        required: false
     },
     productConditionId: {
         type: String,
         ref: 'Condition',
-        required: true
+        required: false
     },
     productSKU: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
-    thumbnailImages: {
-        type: String,
-        ref: 'ImageThumbnail',
-        required: true
+    productCoverImage: {
+        type: Schema.Types.ObjectId,
+        ref: 'File',
+        required: false
     },
     productMinimumOrder: {
         type: Number,
@@ -67,7 +69,7 @@ const productSchema = new mongoose.Schema({
     productTypes: {
         type: String,
         ref: 'ProductTypes',
-        required: true
+        required: false
     },
     createdAt: {
         type: Date,
