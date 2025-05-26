@@ -16,6 +16,7 @@ routes.get("/search", searchProduct);
 routes.post("/", async (req, res) => {
     const oldpath = req.files.productCoverImage.path;
     const newpath = path.join(__dirname + "/public/images/products/" + req.files.productCoverImage.name);
+
     mv(oldpath, newpath, function (err) {
         if (err) throw err.message;
 

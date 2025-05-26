@@ -30,7 +30,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(formidable());
 /* ================== CORS Config ==================================== */
 app.use(cors());
-
+app.use(express.static('public'));
+app.use('/product', express.static('public/images/products'));
 /* ================== Routes Docs ==================================== */
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 

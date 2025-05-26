@@ -4,7 +4,6 @@ import File from "../../models/products/imageModel.js";
 
 
 export const getAllProducts = async (req, res) => {
-    console.log(req.body);
     try {
         const response = await productServices.getAllProducts(req, res);
         return response;
@@ -20,7 +19,6 @@ export const getProductById = async (req, res) => {
 }
 
 export const createProduct = async (req, res) => {
-
     try {
         const id = uuidv4();
         const { name, path, type } = req.files.productCoverImage;
@@ -33,27 +31,16 @@ export const createProduct = async (req, res) => {
 
         req.body = { ...req.fields, productCoverImage: productCoverImage };
         req.body.productId = id;
+
         const response = await productServices.createProduct(req, res);
 
         if (!response) {
             return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create Product" })
         }
-        await productCoverImage.save({
-            useMasterKey: true,
-            validateBeforeSave: true,
-            timestamps: true,
-            success: function (_productCoverImage) {
-                return res.status(200).json({ responseCode: 200, status: "success", message: "Product Created Successfully", data: req.files.productCoverImage.name })
-            },
-            error: function (_productCoverImage, error) {
-                return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create Product : " + error.message + "" })
-            },
-
-        });
-        return res.status(200).json({ responseCode: 200, status: "success", message: "Product Created Successfully", data: req.files.productCoverImage.name })
+        await productCoverImage.save();
+        return res.status(200).json({ responseCode: 200, status: "success", message: "Product Created Successfully" })
     } catch (e) {
-        console.error(e);
-        return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create Product : " + e.message + "" })
+        return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create Product " })
     }
 }
 
