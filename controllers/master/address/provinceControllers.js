@@ -11,33 +11,46 @@ export const getProvinceById = async (req, res) => {
 }
 
 export const createProvince = async (req, res) => {
-    const id = uuidv4();
-    req.body.provinceId = id;
-    const response = await provinceServices.createProvince(req, res);
-    if (!response) {
+    try {
+        const id = uuidv4();
+        req.body.provinceId = id;
+        const response = await provinceServices.createProvince(req, res);
+        if (!response) {
+            return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create Province" });
+        } else {
+            res.status(200).json({ responseCode: 200, status: "success", message: "Province Created Successfully" });
+        }
+    } catch (e) {
         return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create Province" });
-    } else {
-        res.status(200).json({ responseCode: 200, status: "success", message: "Province Created Successfully" });
     }
+
 
 }
 
 export const updateProvince = async (req, res) => {
-    const response = await provinceServices.updateProvince(req, res);
-    if (!response) {
+    try {
+        const response = await provinceServices.updateProvince(req, res);
+        if (!response) {
+            return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to update Province" });
+        } else {
+            return res.status(200).json({ responseCode: 200, status: "success", message: "Province Updated Successfully" });
+        }
+    } catch (e) {
         return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to update Province" });
-    } else {
-        return res.status(200).json({ responseCode: 200, status: "success", message: "Province Updated Successfully" });
     }
 }
 
 
 export const deleteProvince = async (req, res) => {
-    const response = await provinceServices.deleteProvince(req, res);
-    if (!response) {
+    try {
+        const response = await provinceServices.deleteProvince(req, res);
+        if (!response) {
+            return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to delete Province" });
+        } else {
+            return res.status(200).json({ responseCode: 200, status: "success", message: "Province Deleted Successfully" });
+        }
+    } catch (e) {
         return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to delete Province" });
-    } else {
-        return res.status(200).json({ responseCode: 200, status: "success", message: "Province Deleted Successfully" });
     }
 }
 

@@ -2,7 +2,6 @@ import cityModel from "../../../models/master/address/cityModel.js";
 import db from "../../../connection.js";
 
 export const getAllCities = async (req, res) => {
-
     const response = await db.connection.db.collection('cities').aggregate([
         {
             $lookup: {
@@ -42,7 +41,7 @@ export const getAllCities = async (req, res) => {
         }
 
     ]).toArray();
-    return response;
+    return respons1;
 }
 
 export const getCityById = async (req, res) => {
@@ -89,8 +88,25 @@ export const getCityById = async (req, res) => {
     return response;
 }
 
+export const getAllCitiesByProvinceId = async (req, res) => {
+    const response = await db.connection.db.collection('cities').aggregate([
+        {
+            $match: { "active": true, "deletedAt": null, "provinceId": req.params.id }
+        },
+        {
+            $project: {
+                "cityId": 1,
+                "cityName": 1,
+                "cityCode": 1
+            }
+        }
+    ]).toArray();
+    return response;
+}
+
 export const createCity = async (req, res) => {
-    return await cityModel.create(req.body);
+    const response = await cityModel.create(req.body);
+    return response;
 }
 
 export const updateCity = async (req, res) => {
@@ -104,6 +120,7 @@ export const deleteCity = async (req, res) => {
 export default {
     getAllCities,
     getCityById,
+    getAllCitiesByProvinceId,
     createCity,
     updateCity,
     deleteCity

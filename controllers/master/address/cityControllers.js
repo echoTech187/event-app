@@ -11,14 +11,24 @@ export const getCityById = async (req, res) => {
     return res.status(200).json({ responseCode: 200, status: "success", message: "City Fetched Successfully", data: response });
 }
 
+export const getAllCitiesByProvinceId = async (req, res) => {
+    const response = await cityServices.getAllCitiesByProvinceId(req, res);
+    return res.status(200).json({ responseCode: 200, status: "success", message: "Cities Fetched Successfully", data: response });
+}
+
 export const createCity = async (req, res) => {
-    const id = uuidv4();
-    req.body.cityId = id;
-    const response = await cityServices.createCity(req, res);
-    if (!response) {
+    try {
+        const id = uuidv4();
+        req.body.cityId = id;
+        const response = await cityServices.createCity(req, res);
+        print(typeof response);
+        if (!response) {
+            return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create City" });
+        }
+        return res.status(200).json({ responseCode: 200, status: "success", message: "City Created Successfully" });
+    } catch (e) {
         return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create City" });
     }
-    return res.status(200).json({ responseCode: 200, status: "success", message: "City Created Successfully" });
 }
 
 export const updateCity = async (req, res) => {
@@ -37,4 +47,4 @@ export const deleteCity = async (req, res) => {
     return res.status(200).json({ responseCode: 200, status: "success", message: "City Deleted Successfully" });
 }
 
-export default { getAllCities, getCityById, createCity, updateCity, deleteCity };
+export default { getAllCities, getCityById, getAllCitiesByProvinceId, createCity, updateCity, deleteCity };

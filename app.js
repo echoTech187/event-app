@@ -6,7 +6,9 @@ import merchantStatusRoutes from './routes/merchantStatusRoutes.js';
 import userStatusRoutes from './routes/userStatusRoutes.js';
 import provinceRoutes from './routes/provinceRoutes.js';
 import merchantRoutes from './routes/merchantRoutes.js';
+import stateRoutes from './routes/stateRoutes.js';
 import cityRoutes from './routes/cityRoutes.js';
+import countriesRoutes from './routes/countriesRoutes.js';
 import mongoose from 'mongoose';
 import swaggerUI from 'swagger-ui-express';
 import swaggerSpec from './swagger.js';
@@ -41,6 +43,8 @@ app.use('/api/status', userStatusRoutes);
 app.use('/api/merchant/status', merchantStatusRoutes);
 app.use('/api/province', provinceRoutes);
 app.use('/api/city', cityRoutes);
+app.use('/api/state', stateRoutes);
+app.use('/api/countries', countriesRoutes);
 
 
 

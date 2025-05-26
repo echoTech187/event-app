@@ -62,20 +62,47 @@ const merchantSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    merchantCreatedAt: {
-        type: Date,
-        default: Date.now
-    },
-    merchantDeletedBy: {
+    merchaneNameOwner: {
         type: String,
-        required: false,
-        default: null
+        required: false
     },
-    merchantDeletedAt: {
-        type: Date,
-        required: false,
-        default: null
+    merchantEmailOwner: {
+        type: String,
+        required: false
     },
+    merchantPhoneOwner: {
+        type: String,
+        required: false
+    },
+    merchantAddressOwner: {
+        type: String,
+        required: false
+    },
+    merchantProvinceOwner: {
+        type: String,
+        ref: 'Province',
+        required: false
+    },
+    merchantCityOwner: {
+        type: String,
+        ref: 'City',
+        required: false
+    },
+    merchantStateOwner: {
+        type: String,
+        ref: 'State',
+        required: false
+    },
+    merchantCountryOwner: {
+        type: String,
+        ref: 'Country',
+        required: false
+    },
+    merchantNIKOwner: {
+        type: Number,
+        required: false
+    },
+
     merchantStatus: {
         type: String,
         ref: 'MerchantStatus',
@@ -100,6 +127,20 @@ const merchantSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now
+    },
+    merchantCreatedAt: {
+        type: Date,
+        default: Date.now
+    },
+    merchantDeletedBy: {
+        type: String,
+        required: false,
+        default: null
+    },
+    merchantDeletedAt: {
+        type: Date,
+        required: false,
+        default: null
     }
 });
 

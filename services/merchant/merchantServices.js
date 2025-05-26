@@ -5,168 +5,202 @@ export const getAllMerchants = async (req, res) => {
     const response = await db.connection.db.collection('merchants').aggregate([
         {
             $lookup: {
-                from: "merchantstatuses",
-                localField: "merchantStatus",
-                foreignField: "statusId",
-                as: "merchantStatusDetail",
-                pipeline: [
-                    {
-                        $project: {
-                            "statusId": 1,
-                            "status": 1
-                        }
-                    }
-                ]
-            },
-        },
-        {
-            $unwind: "$merchantStatusDetail"
-        },
-        {
-            $lookup: {
+                as: "merchant_province",
                 from: "provinces",
-                localField: "merchantProvince",
                 foreignField: "provinceId",
-                as: "provinceDetail",
-                pipeline: [
-                    {
-                        $project: {
-                            "provinceId": 1,
-                            "provinceName": 1,
-                            "provinceCode": 1
-                        }
-                    }
-                ]
-            },
-        },
-        {
-            $unwind: "$provinceDetail"
-
-        },
-        {
-            $lookup: {
-                from: "cities",
-                localField: "merchantCity",
-                foreignField: "cityId",
-                as: "cityDetail",
-                pipeline: [
-                    {
-                        $project: {
-                            "cityId": 1,
-                            "cityName": 1,
-                            "cityCode": 1
-                        }
-                    }
-                ]
+                localField: "merchantProvince"
             }
         },
         {
-            $unwind: "$cityDetail"
+            $lookup: {
+                as: "merchantcities",
+                from: "cities",
+                foreignField: "cityId",
+                localField: "merchantCity"
+            }
         },
         {
-            $match: { "merchantActive": true, "merchantDeletedAt": null }
+            $lookup: {
+                as: "merchantstate",
+                from: "states",
+                foreignField: "stateId",
+                localField: "merchantState"
+            }
+        },
+        {
+            $lookup: {
+                as: "merchantcountry",
+                from: "countries",
+                foreignField: "countryId",
+                localField: "merchantcountry"
+            }
+        },
+        {
+            $lookup: {
+                as: "merchanttype",
+                from: "merchantstatuses",
+                foreignField: "statusId",
+                localField: "merchantStatus"
+            }
+        },
+        {
+            $match: {
+                "deletedAt": null
+            }
         },
         {
             $project: {
-                "merchantId": 1,
-                "merchantName": 1,
-                "merchantPhone": 1,
-                "merchantEmail": 1,
-                "merchantAddress": 1,
-                "merchantStatusDetail": 1,
-                "provinceDetail": 1,
-                "cityDetail": 1,
-                "merchantVerifiedBy": 1,
-                "merchantVerifiedAt": 1,
-                "merchantLastActivity": 1,
-                "merchantCreatedAt": 1,
-                "merchantActive": 1
+                merchantActive: 1,
+                merchantAddress: 1,
+                merchantCity: 1,
+                merchantCreatedAt: 1,
+                merchantEmail: 1,
+                merchantId: 1,
+                merchantLastActivity: 1,
+                merchantName: 1,
+                merchantPhone: 1,
+                "merchant_province.provinceName": 1,
+                "merchantcities.cityName": 1,
+                "merchantstate.stateName": 1,
+                "merchantcountry.countryName": 1,
+                "merchanttype.status": 1
+            }
+        },
+        {
+            $sort: {
+                merchantCreatedAt: 1
+            }
+        },
+        {
+            $group: {
+                _id: {
+                    merchantActive: "$merchantActive",
+                    merchantAddress: "$merchantAddress",
+                    merchantCity: "$merchantCity",
+                    merchantCreatedAt: "$merchantCreatedAt",
+                    merchantEmail: "$merchantEmail",
+                    merchantId: "$merchantId",
+                    merchantLastActivity:
+                        "$merchantLastActivity",
+                    merchantName: "$merchantName",
+                    merchantPhone: "$merchantPhone",
+                    merchant_province_provinceName:
+                        "$merchant_province.provinceName",
+                    merchantcities_cityName:
+                        "$merchantcities.cityName",
+                    merchantstate_stateName: "$mechantstate_stateName",
+                    merchantcountry_countryName: "$merchantcountry_countryName",
+                    merchanttype_status:
+                        "$merchanttype.status"
+                },
+                stdDevPop_merchant_province_provinceName: {
+                    $stdDevPop:
+                        "$merchant_province.provinceName"
+                }
             }
         }
     ]).toArray();
-    return response;
+    return response[0]._id;
 };
 
 export const getMerchantById = async (req, res) => {
     const response = await db.connection.db.collection('merchants').aggregate([
         {
             $lookup: {
-                from: "merchantstatuses",
-                localField: "merchantStatus",
-                foreignField: "statusId",
-                as: "merchantStatusDetail",
-                pipeline: [
-                    {
-                        $project: {
-                            "statusId": 1,
-                            "status": 1
-                        }
-                    }
-                ]
-            },
-        },
-        {
-            $unwind: "$merchantStatusDetail"
-        },
-        {
-            $lookup: {
+                as: "merchant_province",
                 from: "provinces",
-                localField: "merchantProvince",
                 foreignField: "provinceId",
-                as: "provinceDetail",
-                pipeline: [
-                    {
-                        $project: {
-                            "provinceId": 1,
-                            "provinceName": 1,
-                            "provinceCode": 1
-                        }
-                    }
-                ]
-            },
-        },
-        {
-            $unwind: "$provinceDetail"
-
-        },
-        {
-            $lookup: {
-                from: "cities",
-                localField: "merchantCity",
-                foreignField: "cityId",
-                as: "cityDetail",
-                pipeline: [
-                    {
-                        $project: {
-                            "cityId": 1,
-                            "cityName": 1,
-                            "cityCode": 1
-                        }
-                    }
-                ]
+                localField: "merchantProvince"
             }
         },
         {
-            $unwind: "$cityDetail"
+            $lookup: {
+                as: "merchantcities",
+                from: "cities",
+                foreignField: "cityId",
+                localField: "merchantCity"
+            }
         },
         {
-            $match: { "merchantActive": true, "merchantDeletedAt": null, "merchantId": req.params.id }
+            $lookup: {
+                as: "merchantstate",
+                from: "states",
+                foreignField: "stateId",
+                localField: "merchantState"
+            }
+        },
+        {
+            $lookup: {
+                as: "merchantcountry",
+                from: "countries",
+                foreignField: "countryId",
+                localField: "merchantcountry"
+            }
+        },
+        {
+            $lookup: {
+                as: "merchanttype",
+                from: "merchantstatuses",
+                foreignField: "statusId",
+                localField: "merchantStatus"
+            }
+        },
+        {
+            $match: {
+                "active": true,
+                "deletedAt": null,
+                "merchantId": req.params.id
+            }
         },
         {
             $project: {
-                "merchantId": 1,
-                "merchantName": 1,
-                "merchantPhone": 1,
-                "merchantEmail": 1,
-                "merchantAddress": 1,
-                "merchantStatusDetail": 1,
-                "provinceDetail": 1,
-                "cityDetail": 1,
-                "merchantVerifiedBy": 1,
-                "merchantVerifiedAt": 1,
-                "merchantLastActivity": 1,
-                "merchantCreatedAt": 1,
-                "merchantActive": 1
+                merchantActive: 1,
+                merchantAddress: 1,
+                merchantCity: 1,
+                merchantCreatedAt: 1,
+                merchantEmail: 1,
+                merchantId: 1,
+                merchantLastActivity: 1,
+                merchantName: 1,
+                merchantPhone: 1,
+                "merchant_province.provinceName": 1,
+                "merchantcities.cityName": 1,
+                "merchantstate.stateName": 1,
+                "merchantcountry.countryName": 1,
+                "merchanttype.status": 1
+            }
+        },
+        {
+            $sort: {
+                merchantCreatedAt: 1
+            }
+        },
+        {
+            $group: {
+                _id: {
+                    merchantActive: "$merchantActive",
+                    merchantAddress: "$merchantAddress",
+                    merchantCity: "$merchantCity",
+                    merchantCreatedAt: "$merchantCreatedAt",
+                    merchantEmail: "$merchantEmail",
+                    merchantId: "$merchantId",
+                    merchantLastActivity:
+                        "$merchantLastActivity",
+                    merchantName: "$merchantName",
+                    merchantPhone: "$merchantPhone",
+                    merchant_province_provinceName:
+                        "$merchant_province.provinceName",
+                    merchantcities_cityName:
+                        "$merchantcities.cityName",
+                    merchantstate_stateName: "$mechantstate_stateName",
+                    merchantcountry_countryName: "$merchantcountry_countryName",
+                    merchanttype_status:
+                        "$merchanttype.status"
+                },
+                stdDevPop_merchant_province_provinceName: {
+                    $stdDevPop:
+                        "$merchant_province.provinceName"
+                }
             }
         }
     ]).toArray();

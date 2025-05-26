@@ -11,35 +11,46 @@ const productSchema = new mongoose.Schema({
         ref: 'Merchant',
         required: true
     },
-    name: {
+    productName: {
         type: String,
         required: true
     },
-    category: {
+    productCategoryId: {
         type: String,
         ref: 'Category',
         required: true
     },
-    subCategory: {
-        type: String,
-        ref: 'SubCategory',
-        required: true
-    },
-    brand: {
+    productBrandId: {
         type: String,
         ref: 'Brand',
         required: true
     },
-    condition: {
+    productConditionId: {
         type: String,
         ref: 'Condition',
         required: true
     },
-    price: {
+    productSKU: {
+        type: String,
+        required: true
+    },
+    productMinimumOrder: {
         type: Number,
         required: true
     },
-    description: {
+    productWeightDimention: {
+        type: Number,
+        required: true
+    },
+    productStock: {
+        type: Number,
+        required: true
+    },
+    productPrice: {
+        type: Number,
+        required: true
+    },
+    productDescription: {
         type: String,
         required: true
     },
@@ -52,14 +63,24 @@ const productSchema = new mongoose.Schema({
         ref: 'ImageThumbnail',
         required: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
     productStatus: {
         type: String,
         ref: 'ProductStatus',
         required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    deletedBy: {
+        type: String,
+        required: false,
+        default: null
+    },
+    deletedAt: {
+        type: Date,
+        required: false,
+        default: null
     }
 });
 

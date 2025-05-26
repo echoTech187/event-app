@@ -12,30 +12,45 @@ export const getMerchantById = async (req, res) => {
 };
 
 export const createMerchant = async (req, res) => {
-    const id = uuidv4();
-    req.body.merchantId = id;
-    req.body.merchantPassword = await libs.hashPassword(req.body.merchantPassword);
-    const response = await merchantServices.createMerchant(req, res);
-    if (!response) {
+    try {
+        const id = uuidv4();
+        req.body.merchantId = id;
+        req.body.merchantPassword = await libs.hashPassword(req.body.merchantPassword);
+        const response = await merchantServices.createMerchant(req, res);
+        if (!response) {
+            return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create Merchant" });
+        }
+        return res.status(200).json({ responseCode: 200, status: "success", message: "Merchant Created Successfully" });
+    } catch (e) {
         return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create Merchant" });
     }
-    return res.status(200).json({ responseCode: 200, status: "success", message: "Merchant Created Successfully" });
+
 };
 
 export const updateMerchant = async (req, res) => {
-    const response = await merchantServices.updateMerchant(req, res);
-    if (!response) {
+    try {
+        const response = await merchantServices.updateMerchant(req, res);
+        if (!response) {
+            return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to update Merchant" });
+        }
+        return res.status(200).json({ responseCode: 200, status: "success", message: "Merchant Updated Successfully" });
+    } catch (e) {
         return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to update Merchant" });
     }
-    return res.status(200).json({ responseCode: 200, status: "success", message: "Merchant Updated Successfully" });
+
 };
 
 export const deleteMerchant = async (req, res) => {
-    const response = await merchantServices.deleteMerchant(req, res);
-    if (!response) {
+    try {
+        const response = await merchantServices.deleteMerchant(req, res);
+        if (!response) {
+            return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to delete Merchant" });
+        }
+        return res.status(200).json({ responseCode: 200, status: "success", message: "Merchant Deleted Successfully" });
+    } catch (e) {
         return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to delete Merchant" });
     }
-    return res.status(200).json({ responseCode: 200, status: "success", message: "Merchant Deleted Successfully" });
+
 };
 
 export default { getAllMerchants, getMerchantById, createMerchant, updateMerchant, deleteMerchant };
