@@ -3,7 +3,7 @@ import config from './config.js';
 import bcrypt from "bcrypt";
 import authControllers from '../controllers/authentication/authControllers.js';
 
-const characters ='abcdefghijklmnopqrstuvwxyz0123456789';
+const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
 export const authenticateToken = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -38,7 +38,12 @@ export const generateParams = async (req) => {
     if (req.body) {
         Object.assign(query, req.body);
     }
-
+    if (req.fields) {
+        Object.assign(query, req.fields);
+    }
+    if (req.params) {
+        Object.assign(query, req.params);
+    }
     return query;
 }
 
@@ -67,14 +72,14 @@ export const logoutUser = async (user) => {
     return token;
 }
 
-export const generateString= async(length) =>{
+export const generateString = async (length) => {
     const result = ' ';
     const charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
+    for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
 
     return result;
 }
 
-export default { generateToken, authenticateToken, getToken, generateParams, checkOldPassword, hashPassword, comparePassword,generateString, logoutUser };
+export default { generateToken, authenticateToken, getToken, generateParams, checkOldPassword, hashPassword, comparePassword, generateString, logoutUser };

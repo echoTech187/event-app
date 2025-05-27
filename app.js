@@ -10,6 +10,7 @@ import stateRoutes from './routes/master/attribute/stateRoutes.js';
 import cityRoutes from './routes/master/attribute/cityRoutes.js';
 import countriesRoutes from './routes/master/attribute/countriesRoutes.js';
 import productRoutes from './routes/product/productsRoutes.js';
+import categoryRoutes from './routes/product/categoryRoutes.js';
 import formidable from 'express-formidable';
 import mongoose from 'mongoose';
 import swaggerUI from 'swagger-ui-express';
@@ -49,6 +50,7 @@ app.use('/api/province', provinceRoutes);
 app.use('/api/city', cityRoutes);
 app.use('/api/state', stateRoutes);
 app.use('/api/countries', countriesRoutes);
+app.use('/api/categories', categoryRoutes);
 
 
 

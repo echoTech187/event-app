@@ -1,12 +1,11 @@
 import productServices from "../../services/product/productServices.js";
 import { v4 as uuidv4 } from 'uuid';
-import File from "../../models/products/imageModel.js";
-
+import * as libs from "../../utils/util.js";
 
 export const getAllProducts = async (req, res) => {
     try {
         const response = await productServices.getAllProducts(req, res);
-        return response;
+        return res.status(200).json({ responseCode: 200, status: "success", message: "Products Fetched Successfully", data: response });
     } catch (e) {
         console.log(e);
         return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to get Products" })
@@ -14,29 +13,27 @@ export const getAllProducts = async (req, res) => {
 }
 
 export const getProductById = async (req, res) => {
-    const response = await productServices.getProductById(req, res);
-    return response;
+    try {
+        const response = await productServices.getProductById(req, res);
+        return res.status(200).json({ responseCode: 200, status: "success", message: "Product Fetched Successfully", data: response });
+    } catch (e) {
+        return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to get Product" })
+    }
+
 }
 
 export const createProduct = async (req, res) => {
     try {
         const id = uuidv4();
-        const { name, path, type } = req.files.productCoverImage;
-        const productCoverImage = new File({
-            name: name,
-            data: path,
-            contentType: type,
-        });
-
-
-        req.body = { ...req.fields, productCoverImage: productCoverImage };
+        // const { name, data, contentType } = req.body.productCoverImage;
         req.body.productId = id;
-
         const response = await productServices.createProduct(req, res);
 
         if (!response) {
             return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to create Product" })
         }
+        const productCoverImage = req.body.productCoverImage;
+        productCoverImage.productId = id;
         await productCoverImage.save();
         return res.status(200).json({ responseCode: 200, status: "success", message: "Product Created Successfully" })
     } catch (e) {
@@ -71,8 +68,14 @@ export const deleteProduct = async (req, res) => {
 }
 
 export const searchProduct = async (req, res) => {
-    const response = await productServices.searchProduct(req, res);
-    return response;
+    console.log(req);
+    try {
+        const response = await productServices.searchProduct(req, res);
+        return res.status(200).json({ responseCode: 200, status: "success", message: "Product Fetched Successfully", data: response });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({ responseCode: 500, status: "error", message: "Failed to search Product" })
+    }
 }
 
 export default { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct, searchProduct }

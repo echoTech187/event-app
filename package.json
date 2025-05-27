@@ -17,6 +17,7 @@
     "express-formidable": "^1.2.0",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
+    "md5": "^2.3.0",
     "mongodb": "^6.16.0",
     "mongoose": "^8.14.1",
     "mssql": "^11.0.1",
